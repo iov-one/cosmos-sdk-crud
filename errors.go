@@ -18,6 +18,10 @@ var ErrBadArgument = errors.New("crud: bad argument")
 // might be related to possible state corruption
 var ErrInternal = errors.New("crud: internal error")
 
+// ErrAlteredPrimaryKey is returned when an update is called on an object whose primary key
+// has been altered
+var ErrAlteredPrimaryKey = errors.New("crud: primary key has been altered")
+
 // ErrCursorConsumed is returned in case the cursor used for primary key filtering
 // is not valid anymore because it was consumed
 var ErrCursorConsumed = fmt.Errorf("%w: cursor consumed", ErrBadArgument)

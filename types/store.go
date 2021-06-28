@@ -1,6 +1,7 @@
 package types
 
 import (
+	"bytes"
 	"fmt"
 
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -80,8 +81,13 @@ func (s Store) Read(primaryKey []byte, o crud.Object) error {
 	return s.objects.Read(primaryKey, o)
 }
 
-// TODO: asks for primary key in order to correctly update an object
-func (s Store) Update(o crud.Object) error {
+// Update updates the object with the given originalPrimaryKey. The primary key cannot be changed, the object should be
+// deleted and re-created to do so
+func (s Store) Update(originalPrimaryKey []byte, o crud.Object) error {
+	if !bytes.Equal(originalPrimaryKey, o.PrimaryKey()) {
+		return crud.ErrAlteredPrimaryKey
+	}
+
 	// update indexes
 	err := s.indexes.Delete(o.PrimaryKey())
 	if err != nil {
@@ -163,7 +169,7 @@ func (c *Cursor) Delete() error {
 // Update updates the current element of this cursor with the given object
 // Delete, Read or Update should not be called on this cursor before a call to Next and may cause a ErrNotFound error
 func (c *Cursor) Update(o crud.Object) error {
-	return c.store.Update(o)
+	return c.store.Update(c.currKey(), o)
 }
 
 // Valid indicates if there is remaining data for this cursor

@@ -10,9 +10,10 @@ import (
 	"net/http"
 	"testing"
 
-	crud "github.com/iov-one/cosmos-sdk-crud"
 	"github.com/lucasjones/reggen"
 	"github.com/tendermint/tendermint/libs/rand"
+
+	crud "github.com/iov-one/cosmos-sdk-crud"
 )
 
 type Config struct {
@@ -196,7 +197,7 @@ func testDelete(t *testing.T, store crud.Store, objects []*TestStarname) {
 func testUpdate(t *testing.T, store crud.Store, objects []*TestStarname) {
 	obj := randomObject(objects)
 	obj.Owner = "S" + obj.Owner[1:]
-	err := store.Update(obj)
+	err := store.Update(obj.PrimaryKey(), obj)
 	CheckNoError(t, err)
 
 	testObj := NewTestStarname("", "", "")

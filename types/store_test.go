@@ -36,7 +36,7 @@ func TestStore(t *testing.T) {
 	// test update
 	update := obj
 	update.TestSecondaryKeyB = []byte("test-update")
-	err = s.Update(update)
+	err = s.Update(obj.PrimaryKey(), update)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -91,6 +91,19 @@ func TestStore(t *testing.T) {
 		if !errors.Is(err, crud.ErrAlreadyExists) {
 			t.Fatal("Object should be a duplicate")
 		}
+	})
+	t.Run("update/pk modification", func(t *testing.T) {
+		obj := test.NewRandomObject()
+		pk := obj.PrimaryKey()
+		if err = s.Create(obj); err != nil {
+			t.Fatal("Unexpected error :", err)
+		}
+		obj.TestPrimaryKey = []byte("Modified-pk")
+
+		if err = s.Update(pk, obj); !errors.Is(err, crud.ErrAlteredPrimaryKey) {
+			t.Fatal("Update should not allow primary key modification")
+		}
+
 	})
 	t.Run("delete/existing", func(t *testing.T) {
 		err = s.Delete(test.NewDeterministicObject().PrimaryKey())

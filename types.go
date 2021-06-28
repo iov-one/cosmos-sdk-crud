@@ -75,14 +75,16 @@ type Store interface {
 	// or in case of marshalling error
 	Create(o Object) error
 	// Read reads to the given object using the primary key
-	// 'o' is expected to be a pointer
+	// 'o' is expected to be a pointer to a valid object
 	// fails in case or error unmarshalling or in case
 	// the object does not exist
 	Read(primaryKey []byte, o Object) error
-	// Update updates the given object
-	// fails if there are errors marshalling
+	// Update updates the given object, the primary key
+	// provided MUST BE the original one, do not just give the current one.
+	// Fails if there are errors marshalling
+	// if the primary key does not match the object primary key
 	// or if the object does not exist
-	Update(o Object) error
+	Update(primaryKey []byte, o Object) error
 	// Delete deletes the object from the crud store
 	// given the primary key, fails if the object with
 	// primary key provided does not exist
