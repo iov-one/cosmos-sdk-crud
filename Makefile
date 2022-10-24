@@ -25,5 +25,5 @@ proto-lint:
 .PHONY: proto-lint
 
 proto-check-breaking:
-	@$(DOCKER_BUF) buf check breaking --against-input $(HTTPS_GIT)#branch=master
+	@$(DOCKER_BUF) buf check breaking --against $(HTTPS_GIT)#branch=master
 .PHONY: proto-check-breaking

@@ -12,6 +12,7 @@ import (
 	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
 	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
+
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -498,7 +499,10 @@ func (m *TestObject) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
+			if skippy < 0 {
+				return ErrInvalidLengthTypesTest
+			}
+			if (iNdEx + skippy) < 0 {
 				return ErrInvalidLengthTypesTest
 			}
 			if (iNdEx + skippy) > l {
@@ -680,7 +684,10 @@ func (m *TestStarname) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
+			if skippy < 0 {
+				return ErrInvalidLengthTypesTest
+			}
+			if (iNdEx + skippy) < 0 {
 				return ErrInvalidLengthTypesTest
 			}
 			if (iNdEx + skippy) > l {

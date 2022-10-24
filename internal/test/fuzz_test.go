@@ -70,7 +70,7 @@ type testFunc func(*testing.T, crud.Store, []*TestStarname)
 
 const nbObjectsInTheStore = 100000
 const nbIterations = 50000
-const mainnetConfigEndpoint = "https://lcd-private-iov-mainnet-2.iov.one/configuration/query/configuration"
+const mainnetConfigEndpoint = "http://localhost:1317/configuration/query/configuration"
 
 // We need a constant seed in order to be consistent between runs
 const randomSeed = int64(123465789)
